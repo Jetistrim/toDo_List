@@ -2,6 +2,7 @@ const Header = () => {
     return (
         <>
             header
+            <input type="text" />
         </>
     );
 }
