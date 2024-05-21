@@ -5,12 +5,20 @@ import { Dialog } from 'primereact/dialog'
 import { useState } from "react";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea"
+import { useForm } from "react-hook-form";
 
 const HomeContainer = styled.section``;
 
 const Home = () => {
 
     let [visibleDialog, setVisibleDialog] = useState(false)
+    const {register, handleSubmit, reset, formState: {errors} } = useForm();
+
+    const criarTarefa = (dados) => {
+        console.log(dados)
+    }
+
+
 
     return (
         <HomeContainer>
@@ -31,12 +39,17 @@ const Home = () => {
                 header="Criar tarefa"
             >
 
-                <form className="flex flex-column gap-3">
+                <form
+                    onSubmit={handleSubmit(criarTarefa)}
+                    className="flex flex-column gap-3"
+                >
                     <InputText
                         placeholder="Título"
-                    />
+                        {...register('titulo', {required: true})}
+                        />
                     <InputTextarea 
                         placeholder="Descreva a tarefa"
+                        {...register('descricao')}
                     />
                     <Button
                         type="Submit"
