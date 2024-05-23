@@ -6,23 +6,31 @@ import { useState } from "react";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from 'primereact/inputtextarea';
 import { useForm } from "react-hook-form";
-import { API } from "../../services";
-import { useBuscarCategorias } from "../../hooks/hookTarefas";
+import { useBuscarCategorias, useBuscarTarefas, useCriarTarefa } from "../../hooks/hookTarefas";
+import { Dropdown } from 'primereact/dropdown';
 
 const HomeContainer = styled.section``;
 
 const Home = () => {
 
     const [visibleDialog, setVisibleDialog] = useState(false);
-    const { register, handleSubmit, reset, formState: { errors } } = useForm();
+    const [categoria, setCategoria] = useState();
+    const { register, handleSubmit, reset, formState: { errors }, setValue } = useForm();
 
     const { data: categorias } = useBuscarCategorias();
+    const { data: tarefas, isFetched } = useBuscarTarefas();
+    const { mutateAsync: handleCriar } = useCriarTarefa();
 
     const criarTarefa = (dados) => {
-        console.log(dados);
+        handleCriar(dados, {
+            onSuccess: () => {
+                setVisibleDialog(false);
+            },
+            onError: (erro) => {
+                alert(erro.message)
+            }
+        });
     }
-
-    console.log(categorias && categorias);
 
     return (
         <HomeContainer>
@@ -36,7 +44,13 @@ const Home = () => {
                         onClick={() => setVisibleDialog(true)}
                     />
                 </h1>
-
+                <ul>
+                    { isFetched && tarefas.map((tarefa, index) => (
+                        <li key={index}>
+                            { tarefa.titulo }
+                        </li>
+                    )) }
+                </ul>
             </div>
             <Dialog
                 visible={visibleDialog}
@@ -55,7 +69,17 @@ const Home = () => {
                         placeholder="Descreva a tarefa"
                         {...register("descricao")}
                     />
-
+                    <Dropdown
+                        value={categoria}
+                        options={categorias}
+                        optionLabel="nome"
+                        optionValue="id"
+                        placeholder="Escolha uma categoria"
+                        onChange={(e) => {
+                            setValue("categoria", e.value);
+                            setCategoria(e.value);
+                        }}
+                    />
                     <Button
                         type="submit"
                         label="Criar"

@@ -1,20 +1,52 @@
 {
-    "categorias": [
-        {
-            "id": 1,
-            "nome": "mercado"
-        },
-        {
-            "id": 2,
-            "nome": "trabalho"
-        },
-        {
-            "id": 3,
-            "nome": "estudo"
-        },
-        {
-            "id": 4,
-            "nome": "lazer"
-        }
-    ]
+  "categorias": [
+    {
+      "id": 1,
+      "nome": "mercado"
+    },
+    {
+      "id": 2,
+      "nome": "trabalho"
+    },
+    {
+      "id": 3,
+      "nome": "estudo"
+    },
+    {
+      "id": 4,
+      "nome": "lazer"
+    }
+  ],
+  "tarefas": [
+    {
+      "titulo": "teste",
+      "descricao": "testesteste",
+      "categoria": 1,
+      "id": 1
+    },
+    {
+      "titulo": "teste2",
+      "descricao": "ttterter",
+      "categoria": 1,
+      "id": 2
+    },
+    {
+      "titulo": "teste 3",
+      "descricao": "sfds",
+      "categoria": 1,
+      "id": 3
+    },
+    {
+      "titulo": "teste 4",
+      "descricao": "sfds",
+      "categoria": 1,
+      "id": 4
+    },
+    {
+      "titulo": "teste 5",
+      "descricao": "sfds",
+      "categoria": 1,
+      "id": 5
+    }
+  ]
 }
