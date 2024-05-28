@@ -1,5 +1,5 @@
 import { QueryClient } from "@tanstack/react-query";
-import { Axios } from "axios";
+import axios from "axios";
 
 export const API = axios.create({
     baseURL: 'http://localhost:8000'
