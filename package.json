@@ -1,5 +1,5 @@
 {
-  "name": "to-do-list",
+  "name": "todo-list",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -21,13 +21,12 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.4",
     "react-router-dom": "^6.23.0",
-    "styled-components": "^6.1.10",
-    "swc": "^1.0.11"
+    "styled-components": "^6.1.10"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
-    "@vitejs/plugin-react": "^4.2.1",
+    "@vitejs/plugin-react-swc": "^3.5.0",
     "eslint": "^8.57.0",
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",

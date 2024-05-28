@@ -1,4 +1,6 @@
-import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
+
+
+import "primereact/resources/themes/lara-light-green/theme.css";
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 import Paths from "./routes/Paths";
@@ -13,6 +15,6 @@ const App = () => {
       </QueryClientProvider>
     </>
   );
-};
-
+}
+ 
 export default App;
