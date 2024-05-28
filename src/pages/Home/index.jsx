@@ -2,12 +2,14 @@ import { styled } from "styled-components";
 import Header from "../../components/Header";
 import { Button } from "primereact/button";
 import { Dialog } from 'primereact/dialog';
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from 'primereact/inputtextarea';
 import { useForm } from "react-hook-form";
-import { useBuscarCategorias, useBuscarTarefas, useCriarTarefa } from "../../hooks/hookTarefas";
+import { useBuscarCategorias, useBuscarTarefas, useCriarTarefa, useDeletarTarefa } from "../../hooks/hookTarefas";
 import { Dropdown } from 'primereact/dropdown';
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { Toast } from 'primereact/toast';
 
 const HomeContainer = styled.section``;
 
@@ -17,9 +19,12 @@ const Home = () => {
     const [categoria, setCategoria] = useState();
     const { register, handleSubmit, reset, formState: { errors }, setValue } = useForm();
 
+    const toast = useRef()
+
     const { data: categorias } = useBuscarCategorias();
     const { data: tarefas, isFetched } = useBuscarTarefas();
     const { mutateAsync: handleCriar } = useCriarTarefa();
+    const { mutateAsync: handleDeletar} = useDeletarTarefa();
 
     const criarTarefa = (dados) => {
         handleCriar(dados, {
@@ -30,6 +35,29 @@ const Home = () => {
                 alert(erro.message)
             }
         });
+    }
+
+    const deletarTarefa = (id) => {
+        confirmDialog({
+            header: 'Alerta:',
+            message: 'Deseja realmente apagar estes dados?',
+            acceptLabel: 'Sim',
+            rejectLabel: 'Não',
+            accept: () => {
+                handleDeletar(id, {
+                    onSuccess: () => {
+                        toast.current.show({
+                            summary: 'Aviso:',
+                            detail: 'Dados deletados com sucesso',
+                            severity: 'success'
+                        })
+                    }
+                })
+            },
+            reject: () => {
+
+            }
+        })
     }
 
     return (
@@ -44,13 +72,20 @@ const Home = () => {
                         onClick={() => setVisibleDialog(true)}
                     />
                 </h1>
-                <ul>
+                <div className="grid">
                     { isFetched && tarefas.map((tarefa, index) => (
-                        <li key={index}>
-                            { tarefa.titulo }
-                        </li>
+                        <div key={index} className="col-4 surface-0 border-rounded-md p-3">
+                            <h3
+                            className="flex justify-content-between"
+                            >
+                                { tarefa.titulo }
+                                <i className="pi pi-trash" onClick={() => deletarTarefa(tarefa.id)}></i>
+                            </h3>
+                            <h6>{ tarefa.categoria }</h6>
+                            <p>{ tarefa.descricao }</p>
+                        </div>
                     )) }
-                </ul>
+                </div>
             </div>
             <Dialog
                 visible={visibleDialog}
@@ -86,6 +121,8 @@ const Home = () => {
                     />
                 </form>
             </Dialog>
+            <ConfirmDialog/>
+            <Toast ref={toast} position="bottom-right"/>
         </HomeContainer>
     );
 }
